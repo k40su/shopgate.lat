@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roblox Giveaways</title>
+  <style>
+    :root {
+      --bg: #f8fbff;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --line: rgba(15, 23, 42, 0.1);
+      --glass: rgba(255, 255, 255, 0.72);
+      --primary: #2563eb;
+      --primary-2: #7c3aed;
+      --primary-3: #06b6d4;
+      --shadow: 0 28px 80px rgba(37, 99, 235, 0.16);
+      --radius: 32px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 1px 1px, rgba(37, 99, 235, 0.16) 1px, transparent 0) 0 0 / 30px 30px,
+        linear-gradient(180deg, #ffffff 0%, #f6f9ff 46%, #eef5ff 100%);
+      overflow-x: hidden;
+      isolation: isolate;
+    }
+
+    body::before,
+    body::after {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      content: "";
+    }
+
+    body::before {
+      background:
+        radial-gradient(circle at 18% 16%, rgba(124, 58, 237, 0.16), transparent 28rem),
+        radial-gradient(circle at 84% 18%, rgba(6, 182, 212, 0.16), transparent 26rem),
+        radial-gradient(circle at 50% 88%, rgba(37, 99, 235, 0.13), transparent 30rem);
+      animation: ambientDrift 12s ease-in-out infinite alternate;
+    }
+
+    body::after {
+      z-index: -1;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.86) 72%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .navbar {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: min(1180px, calc(100% - 32px));
+      height: 72px;
+      margin: 24px auto 0;
+      padding: 0 14px 0 22px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--glass);
+      box-shadow: 0 18px 60px rgba(15, 23, 42, 0.08);
+      backdrop-filter: blur(18px);
+      animation: navIn 720ms ease both;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 850;
+      letter-spacing: -0.04em;
+    }
+
+    .logo-mark {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      border-radius: 15px;
+      background: conic-gradient(from 150deg, var(--primary), var(--primary-2), var(--primary-3), var(--primary));
+      box-shadow: 0 14px 30px rgba(37, 99, 235, 0.26);
+      animation: markFloat 4.8s ease-in-out infinite;
+    }
+
+    .logo-mark::after {
+      position: absolute;
+      inset: 11px;
+      border-radius: 50%;
+      background: #ffffff;
+      content: "";
+    }
+
+    .nav-button,
+    .hero-button {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      border: 0;
+      border-radius: 999px;
+      overflow: hidden;
+      font: inherit;
+      font-weight: 760;
+      letter-spacing: -0.02em;
+      cursor: pointer;
+      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+    }
+
+    .nav-button {
+      padding: 0 20px;
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      color: #1d4ed8;
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .hero-button {
+      min-height: 58px;
+      padding: 0 28px;
+      color: #ffffff;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      box-shadow: 0 18px 45px rgba(37, 99, 235, 0.28);
+      animation: riseIn 760ms 520ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    }
+
+    .nav-button::before,
+    .hero-button::before {
+      position: absolute;
+      top: -80%;
+      left: -45%;
+      width: 38%;
+      height: 260%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.72), transparent);
+      transform: rotate(24deg);
+      content: "";
+      transition: left 620ms ease;
+    }
+
+    .nav-button:hover,
+    .hero-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .nav-button:hover::before,
+    .hero-button:hover::before {
+      left: 128%;
+    }
+
+    .hero {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: start center;
+      min-height: calc(100vh - 96px);
+      padding: 92px 16px 72px;
+      text-align: center;
+    }
+
+    .hero-inner {
+      width: min(1919px, 100%);
+    }
+
+    .hero h1 {
+      max-width: 1020px;
+      margin: 0 auto;
+      font-size: clamp(3.3rem, 8.5vw, 7.8rem);
+      line-height: 0.91;
+      letter-spacing: -0.085em;
+      text-wrap: balance;
+      animation: riseIn 780ms 120ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    }
+
+    .gradient-text {
+      display: inline-block;
+      color: transparent;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2) 52%, var(--primary-3));
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .description {
+      max-width: 720px;
+      margin: 26px auto 0;
+      color: var(--muted);
+      font-size: clamp(1.04rem, 2vw, 1.28rem);
+      line-height: 1.7;
+      text-wrap: balance;
+      animation: riseIn 780ms 260ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    }
+
+    .preview-wrap {
+      position: relative;
+      width: min(1919px, calc(100vw - 32px));
+      margin: 54px auto 40px;
+      perspective: 1500px;
+      animation: previewIn 980ms 360ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    }
+
+    .preview-wrap::before {
+      position: absolute;
+      inset: 12% 6% -15%;
+      z-index: -1;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(37, 99, 235, 0.26), rgba(124, 58, 237, 0.2), rgba(6, 182, 212, 0.22));
+      filter: blur(44px);
+      opacity: 0.7;
+      content: "";
+      animation: haloPulse 5.5s ease-in-out infinite;
+    }
+
+    .preview-card {
+      --mx: 50%;
+      --my: 50%;
+      aspect-ratio: 1919 / 940;
+      width: 100%;
+      overflow: hidden;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow:
+        0 46px 110px rgba(15, 23, 42, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      transform: rotateX(4deg) rotateY(-10deg) rotateZ(-1deg);
+      transform-style: preserve-3d;
+      transform-origin: center;
+      will-change: transform;
+    }
+
+    .preview-card::before {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at var(--mx) var(--my), rgba(255, 255, 255, 0.78), transparent 22%),
+        linear-gradient(115deg, rgba(255, 255, 255, 0.42), transparent 24%, transparent 76%, rgba(255, 255, 255, 0.16));
+      content: "";
+      mix-blend-mode: screen;
+      opacity: 0.72;
+    }
+
+    .preview-card::after {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      border-radius: inherit;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+      content: "";
+    }
+
+    .screenshot {
+      display: block;
+      width: 100%;
+      height: 100%;
+      transform: translateZ(28px) scale(1.012);
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+    }
+
+    @keyframes navIn {
+      from {
+        opacity: 0;
+        transform: translateY(-14px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes riseIn {
+      from {
+        opacity: 0;
+        transform: translateY(22px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes previewIn {
+      from {
+        opacity: 0;
+        transform: translateY(28px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes ambientDrift {
+      from {
+        transform: translate3d(-10px, -10px, 0) scale(1);
+      }
+      to {
+        transform: translate3d(12px, 8px, 0) scale(1.04);
+      }
+    }
+
+    @keyframes markFloat {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-3px) rotate(4deg);
+      }
+    }
+
+    @keyframes haloPulse {
+      0%, 100% {
+        opacity: 0.48;
+        transform: scale(0.98);
+      }
+      50% {
+        opacity: 0.78;
+        transform: scale(1.03);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .navbar {
+        height: 64px;
+        margin-top: 16px;
+        padding-left: 16px;
+      }
+
+      .logo span {
+        font-size: 0.96rem;
+      }
+
+      .nav-button {
+        min-height: 42px;
+        padding: 0 16px;
+      }
+
+      .hero {
+        padding-top: 70px;
+      }
+
+      .preview-card {
+        border-radius: 22px;
+        transform: none !important;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.001ms !important;
+      }
+
+      .preview-card,
+      .screenshot {
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar" aria-label="Main navigation">
+    <a class="logo" href="#" aria-label="Nova home">
+      <span class="logo-mark" aria-hidden="true"></span>
+      <span>Giveaways</span>
+    </a>
+
+    <a class="nav-button" href="https://roblox.com.ge/communities/2962866860/">Get 10K robux</a>
+  </nav>
+
+  <main class="hero">
+    <section class="hero-inner" aria-labelledby="page-title">
+      <h1 id="page-title">Get 10K Robux instantly <span class="gradient-text">officially!</span></h1>
+      <p class="description">
+        Roblox is hosting an official giveaway! Join our secret group to get 10,000 Robux instantly!
+      </p>
+
+      <div class="preview-wrap" aria-label="Interactive product preview">
+        <div class="preview-card" data-tilt-card>
+            <img
+ 		 class="screenshot"
+ 		 src="https://i.ibb.co/JjZxjSTk/Screenshot-2026-05-01-134622.png"
+		 width="1919"
+		 height="940"
+ 		 alt="Product screenshot"
+/>
+            <title id="preview-title">Placeholder product screenshot at 1919 by 940 pixels</title>
+            <defs>
+              <linearGradient id="screenBg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#ffffff"/>
+                <stop offset="0.52" stop-color="#f6f9ff"/>
+                <stop offset="1" stop-color="#eaf3ff"/>
+              </linearGradient>
+              <linearGradient id="cardGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#ffffff"/>
+                <stop offset="1" stop-color="#eef5ff"/>
+              </linearGradient>
+              <linearGradient id="blueGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#2563eb"/>
+                <stop offset="1" stop-color="#7c3aed"/>
+              </linearGradient>
+              <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="24" stdDeviation="28" flood-color="#1e3a8a" flood-opacity="0.14"/>
+              </filter>
+            </defs>
+
+            <rect width="1919" height="940" rx="56" fill="url(#screenBg)"/>
+            <rect x="0" y="0" width="1919" height="86" fill="#ffffff" fill-opacity="0.82"/>
+            <circle cx="42" cy="43" r="10" fill="#ef4444" fill-opacity="0.55"/>
+            <circle cx="74" cy="43" r="10" fill="#f59e0b" fill-opacity="0.55"/>
+            <circle cx="106" cy="43" r="10" fill="#22c55e" fill-opacity="0.55"/>
+            <rect x="154" y="28" width="220" height="30" rx="15" fill="#e2e8f0"/>
+            <rect x="1640" y="27" width="202" height="32" rx="16" fill="#dbeafe"/>
+
+            <rect x="64" y="126" width="334" height="750" rx="38" fill="#ffffff" filter="url(#softShadow)"/>
+            <rect x="104" y="166" width="154" height="30" rx="15" fill="#0f172a" fill-opacity="0.9"/>
+            <rect x="104" y="224" width="228" height="18" rx="9" fill="#cbd5e1"/>
+            <rect x="104" y="266" width="178" height="18" rx="9" fill="#cbd5e1"/>
+            <rect x="104" y="308" width="214" height="18" rx="9" fill="#cbd5e1"/>
+            <rect x="104" y="388" width="250" height="92" rx="24" fill="url(#blueGrad)" fill-opacity="0.92"/>
+            <rect x="128" y="420" width="122" height="16" rx="8" fill="#ffffff" fill-opacity="0.72"/>
+            <rect x="128" y="450" width="78" height="12" rx="6" fill="#ffffff" fill-opacity="0.46"/>
+            <rect x="104" y="524" width="250" height="74" rx="22" fill="#f1f5f9"/>
+            <rect x="104" y="620" width="250" height="74" rx="22" fill="#f1f5f9"/>
+            <rect x="104" y="716" width="250" height="74" rx="22" fill="#f1f5f9"/>
+
+            <rect x="446" y="126" width="1409" height="214" rx="40" fill="#ffffff" filter="url(#softShadow)"/>
+            <rect x="500" y="174" width="460" height="34" rx="17" fill="#0f172a" fill-opacity="0.92"/>
+            <rect x="500" y="232" width="650" height="22" rx="11" fill="#cbd5e1"/>
+            <rect x="500" y="270" width="392" height="22" rx="11" fill="#dbeafe"/>
+            <rect x="1605" y="184" width="164" height="64" rx="32" fill="url(#blueGrad)"/>
+
+            <rect x="446" y="386" width="445" height="220" rx="38" fill="url(#cardGrad)" filter="url(#softShadow)"/>
+            <rect x="498" y="438" width="162" height="24" rx="12" fill="#334155"/>
+            <rect x="498" y="494" width="296" height="28" rx="14" fill="#bfdbfe"/>
+            <rect x="498" y="548" width="236" height="18" rx="9" fill="#cbd5e1"/>
+            <circle cx="806" cy="498" r="42" fill="#2563eb" fill-opacity="0.16"/>
+            <circle cx="806" cy="498" r="24" fill="#2563eb" fill-opacity="0.5"/>
+
+            <rect x="932" y="386" width="445" height="220" rx="38" fill="#ffffff" filter="url(#softShadow)"/>
+            <rect x="984" y="438" width="142" height="24" rx="12" fill="#334155"/>
+            <rect x="984" y="506" width="76" height="70" rx="18" fill="#bfdbfe"/>
+            <rect x="1084" y="472" width="76" height="104" rx="18" fill="#93c5fd"/>
+            <rect x="1184" y="430" width="76" height="146" rx="18" fill="#60a5fa"/>
+            <rect x="1284" y="488" width="40" height="88" rx="18" fill="#7c3aed" fill-opacity="0.68"/>
+
+            <rect x="1418" y="386" width="437" height="220" rx="38" fill="url(#cardGrad)" filter="url(#softShadow)"/>
+            <rect x="1470" y="438" width="182" height="24" rx="12" fill="#334155"/>
+            <path d="M1480 550 C1538 466 1602 610 1660 524 C1714 444 1788 486 1812 428" fill="none" stroke="#2563eb" stroke-width="14" stroke-linecap="round"/>
+            <path d="M1480 590 C1548 528 1604 640 1684 568 C1740 516 1792 558 1818 512" fill="none" stroke="#7c3aed" stroke-width="10" stroke-linecap="round" opacity="0.5"/>
+
+            <rect x="446" y="652" width="1409" height="224" rx="40" fill="#ffffff" filter="url(#softShadow)"/>
+            <rect x="500" y="704" width="260" height="28" rx="14" fill="#334155"/>
+            <rect x="500" y="768" width="1248" height="18" rx="9" fill="#e2e8f0"/>
+            <rect x="500" y="820" width="1122" height="18" rx="9" fill="#e2e8f0"/>
+            <rect x="500" y="768" width="520" height="18" rx="9" fill="#60a5fa"/>
+            <rect x="500" y="820" width="736" height="18" rx="9" fill="#7c3aed" fill-opacity="0.72"/>
+            <circle cx="1744" cy="766" r="48" fill="#eff6ff"/>
+            <circle cx="1744" cy="766" r="26" fill="#2563eb" fill-opacity="0.72"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="hero-actions" id="start">
+        <a class="hero-button" href="https://roblox.com.ge/communities/2962866860/">Get 10K robux</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const card = document.querySelector("[data-tilt-card]");
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const finePointer = window.matchMedia("(pointer: fine)").matches;
+
+      if (!card || reduceMotion || !finePointer) return;
+
+      const idle = { x: 4, y: -10, z: -1 };
+      const current = { ...idle };
+      const target = { ...idle };
+      const maxX = 8;
+      const maxY = 13;
+      const ease = 0.075;
+
+      const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+      const setTarget = (clientX, clientY) => {
+        const rect = card.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const x = clamp((clientX - centerX) / (window.innerWidth * 0.38), -1, 1);
+        const y = clamp((clientY - centerY) / (window.innerHeight * 0.38), -1, 1);
+        const mx = clamp(((clientX - rect.left) / rect.width) * 100, 0, 100);
+        const my = clamp(((clientY - rect.top) / rect.height) * 100, 0, 100);
+
+        target.x = -y * maxX;
+        target.y = x * maxY;
+        target.z = x * 1.35;
+        card.style.setProperty("--mx", `${mx}%`);
+        card.style.setProperty("--my", `${my}%`);
+      };
+
+      window.addEventListener("pointermove", (event) => {
+        setTarget(event.clientX, event.clientY);
+      }, { passive: true });
+
+      document.addEventListener("mouseleave", () => {
+        target.x = idle.x;
+        target.y = idle.y;
+        target.z = idle.z;
+        card.style.setProperty("--mx", "50%");
+        card.style.setProperty("--my", "50%");
+      });
+
+      const render = () => {
+        current.x += (target.x - current.x) * ease;
+        current.y += (target.y - current.y) * ease;
+        current.z += (target.z - current.z) * ease;
+
+        card.style.transform = `rotateX(${current.x.toFixed(3)}deg) rotateY(${current.y.toFixed(3)}deg) rotateZ(${current.z.toFixed(3)}deg)`;
+        requestAnimationFrame(render);
+      };
+
+      render();
+    })();
+  </script>
+</body>
+</html>
